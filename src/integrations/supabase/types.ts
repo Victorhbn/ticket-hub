@@ -14,16 +14,198 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      anexos: {
+        Row: {
+          chamado_id: string
+          created_at: string
+          id: string
+          nome: string
+          path: string
+        }
+        Insert: {
+          chamado_id: string
+          created_at?: string
+          id?: string
+          nome: string
+          path: string
+        }
+        Update: {
+          chamado_id?: string
+          created_at?: string
+          id?: string
+          nome?: string
+          path?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "anexos_chamado_id_fkey"
+            columns: ["chamado_id"]
+            isOneToOne: false
+            referencedRelation: "chamados"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chamados: {
+        Row: {
+          created_at: string
+          descricao: string
+          id: string
+          prioridade: Database["public"]["Enums"]["chamado_prioridade"]
+          resolvido_em: string | null
+          sistema_id: string | null
+          solicitante_id: string
+          status: Database["public"]["Enums"]["chamado_status"]
+          tecnico_id: string | null
+          titulo: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          descricao: string
+          id?: string
+          prioridade?: Database["public"]["Enums"]["chamado_prioridade"]
+          resolvido_em?: string | null
+          sistema_id?: string | null
+          solicitante_id: string
+          status?: Database["public"]["Enums"]["chamado_status"]
+          tecnico_id?: string | null
+          titulo: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          descricao?: string
+          id?: string
+          prioridade?: Database["public"]["Enums"]["chamado_prioridade"]
+          resolvido_em?: string | null
+          sistema_id?: string | null
+          solicitante_id?: string
+          status?: Database["public"]["Enums"]["chamado_status"]
+          tecnico_id?: string | null
+          titulo?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chamados_sistema_id_fkey"
+            columns: ["sistema_id"]
+            isOneToOne: false
+            referencedRelation: "sistemas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      comentarios: {
+        Row: {
+          autor_id: string
+          chamado_id: string
+          conteudo: string
+          created_at: string
+          id: string
+        }
+        Insert: {
+          autor_id: string
+          chamado_id: string
+          conteudo: string
+          created_at?: string
+          id?: string
+        }
+        Update: {
+          autor_id?: string
+          chamado_id?: string
+          conteudo?: string
+          created_at?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "comentarios_chamado_id_fkey"
+            columns: ["chamado_id"]
+            isOneToOne: false
+            referencedRelation: "chamados"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          nome: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string
+          id: string
+          nome?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          nome?: string
+        }
+        Relationships: []
+      }
+      sistemas: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          nome: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          nome: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          nome?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_staff: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "tecnico" | "usuario"
+      chamado_prioridade: "baixa" | "media" | "alta" | "critica"
+      chamado_status: "aberto" | "em_atendimento" | "pendente" | "resolvido"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +332,10 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "tecnico", "usuario"],
+      chamado_prioridade: ["baixa", "media", "alta", "critica"],
+      chamado_status: ["aberto", "em_atendimento", "pendente", "resolvido"],
+    },
   },
 } as const
