@@ -59,25 +59,31 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-status-aberto: var(--status-aberto);
+  --color-status-atendimento: var(--status-atendimento);
+  --color-status-pendente: var(--status-pendente);
+  --color-status-resolvido: var(--status-resolvido);
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
 }
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
+  --background: oklch(0.985 0.005 230);
+  --foreground: oklch(0.22 0.03 240);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.129 0.042 264.695);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
+  --primary: oklch(0.48 0.11 232);
+  --primary-foreground: oklch(0.99 0.005 230);
+  --secondary: oklch(0.955 0.012 232);
   --secondary-foreground: oklch(0.208 0.042 265.755);
   --muted: oklch(0.968 0.007 247.896);
   --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
-  --destructive: oklch(0.577 0.245 27.325);
+  --accent: oklch(0.94 0.03 200);
+  --accent-foreground: oklch(0.3 0.06 232);
+  --destructive: oklch(0.55 0.21 25);
   --destructive-foreground: oklch(0.984 0.003 247.858);
   --border: oklch(0.929 0.013 255.508);
   --input: oklch(0.929 0.013 255.508);
@@ -95,6 +101,10 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
+  --status-aberto: oklch(0.55 0.13 250);
+  --status-atendimento: oklch(0.6 0.13 210);
+  --status-pendente: oklch(0.65 0.14 75);
+  --status-resolvido: oklch(0.55 0.13 155);
 }
 
 .dark {
@@ -130,6 +140,10 @@
   --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.551 0.027 264.364);
+  --status-aberto: oklch(0.7 0.13 250);
+  --status-atendimento: oklch(0.73 0.13 210);
+  --status-pendente: oklch(0.78 0.14 75);
+  --status-resolvido: oklch(0.72 0.14 155);
 }
 
 @layer base {
@@ -140,5 +154,10 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-sans);
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
   }
 }
