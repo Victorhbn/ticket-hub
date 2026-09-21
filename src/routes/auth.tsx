@@ -24,6 +24,8 @@ export const Route = createFileRoute("/auth")({
 
 function AuthPage() {
   const navigate = useNavigate();
+  const { data: settings } = useAppSettings();
+  const cadastroHabilitado = settings?.cadastroHabilitado ?? false;
   const [carregando, setCarregando] = useState(false);
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
@@ -49,6 +51,10 @@ function AuthPage() {
 
   async function cadastrar(e: React.FormEvent) {
     e.preventDefault();
+    if (!cadastroHabilitado) {
+      toast.error("O cadastro de novas contas está desativado. Fale com o administrador.");
+      return;
+    }
     setCarregando(true);
     const { error } = await supabase.auth.signUp({
       email,
