@@ -79,6 +79,24 @@ function UsuariosPage() {
         </p>
       </div>
 
+      <div className="flex flex-wrap items-center justify-between gap-4 rounded-xl border bg-card p-4 shadow-sm">
+        <div>
+          <Label htmlFor="cadastro-aberto" className="text-base font-medium">
+            Cadastro de novas contas
+          </Label>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Quando desligado, a aba "Criar conta" some da tela de acesso e novos cadastros são
+            bloqueados.
+          </p>
+        </div>
+        <Switch
+          id="cadastro-aberto"
+          checked={settings?.cadastroHabilitado ?? true}
+          disabled={alterarCadastro.isPending}
+          onCheckedChange={(v) => alterarCadastro.mutate(v)}
+        />
+      </div>
+
       <div className="overflow-hidden rounded-xl border bg-card shadow-sm">
         <table className="w-full text-sm">
           <thead className="bg-muted/50 text-left text-muted-foreground">
