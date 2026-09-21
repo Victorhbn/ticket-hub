@@ -9,8 +9,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import { useAppSettings, useAtualizarCadastroHabilitado } from "@/hooks/useAppSettings";
 import { usePerfis, useRolesPorUsuario } from "@/hooks/useChamadosData";
 import { ROLE_LABEL, type AppRole } from "@/lib/chamados";
 
@@ -30,6 +33,8 @@ function UsuariosPage() {
   const { isAdmin, loading, userId } = useAuth();
   const { data: perfis } = usePerfis();
   const { data: roles } = useRolesPorUsuario();
+  const { data: settings } = useAppSettings();
+  const alterarCadastro = useAtualizarCadastroHabilitado();
   const queryClient = useQueryClient();
 
   const alterar = useMutation({
@@ -72,6 +77,24 @@ function UsuariosPage() {
         <p className="text-sm text-muted-foreground">
           Defina quem é solicitante, equipe técnica ou administrador.
         </p>
+      </div>
+
+      <div className="flex flex-wrap items-center justify-between gap-4 rounded-xl border bg-card p-4 shadow-sm">
+        <div>
+          <Label htmlFor="cadastro-aberto" className="text-base font-medium">
+            Cadastro de novas contas
+          </Label>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Quando desligado, a aba "Criar conta" some da tela de acesso e novos cadastros são
+            bloqueados.
+          </p>
+        </div>
+        <Switch
+          id="cadastro-aberto"
+          checked={settings?.cadastroHabilitado ?? true}
+          disabled={alterarCadastro.isPending}
+          onCheckedChange={(v) => alterarCadastro.mutate(v)}
+        />
       </div>
 
       <div className="overflow-hidden rounded-xl border bg-card shadow-sm">

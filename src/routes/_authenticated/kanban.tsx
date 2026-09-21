@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 import { ChamadoDetalhe } from "@/components/chamados/ChamadoDetalhe";
+import { FiltrosChamados, useFiltrosChamados } from "@/components/chamados/FiltrosChamados";
 import { PrioridadeBadge } from "@/components/chamados/badges";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -36,6 +37,7 @@ function KanbanPage() {
   const queryClient = useQueryClient();
   const [selecionado, setSelecionado] = useState<Chamado | null>(null);
   const [arrastando, setArrastando] = useState<string | null>(null);
+  const { filtros, setFiltros, limpar, lista, ativos } = useFiltrosChamados(chamados);
 
   const mover = useMutation({
     mutationFn: async ({ id, status }: { id: string; status: ChamadoStatus }) => {
@@ -70,9 +72,18 @@ function KanbanPage() {
         </p>
       </div>
 
+      <FiltrosChamados
+        filtros={filtros}
+        setFiltros={setFiltros}
+        limpar={limpar}
+        ativos={ativos}
+        total={(chamados ?? []).length}
+        exibidos={lista.length}
+      />
+
       <div className="grid gap-4 lg:grid-cols-4">
         {STATUS_ORDER.map((status) => {
-          const itens = (chamados ?? []).filter((c) => c.status === status);
+          const itens = lista.filter((c) => c.status === status);
           return (
             <section
               key={status}

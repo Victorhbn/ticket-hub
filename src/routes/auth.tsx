@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
+import { useAppSettings } from "@/hooks/useAppSettings";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -23,6 +24,8 @@ export const Route = createFileRoute("/auth")({
 
 function AuthPage() {
   const navigate = useNavigate();
+  const { data: settings } = useAppSettings();
+  const cadastroHabilitado = settings?.cadastroHabilitado ?? false;
   const [carregando, setCarregando] = useState(false);
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
@@ -48,6 +51,10 @@ function AuthPage() {
 
   async function cadastrar(e: React.FormEvent) {
     e.preventDefault();
+    if (!cadastroHabilitado) {
+      toast.error("O cadastro de novas contas está desativado. Fale com o administrador.");
+      return;
+    }
     setCarregando(true);
     const { error } = await supabase.auth.signUp({
       email,
@@ -75,9 +82,11 @@ function AuthPage() {
         </Link>
         <div className="rounded-xl border bg-card p-6 shadow-sm">
           <Tabs defaultValue="entrar">
-            <TabsList className="mb-6 grid w-full grid-cols-2">
+            <TabsList
+              className={`mb-6 grid w-full ${cadastroHabilitado ? "grid-cols-2" : "grid-cols-1"}`}
+            >
               <TabsTrigger value="entrar">Entrar</TabsTrigger>
-              <TabsTrigger value="cadastrar">Criar conta</TabsTrigger>
+              {cadastroHabilitado && <TabsTrigger value="cadastrar">Criar conta</TabsTrigger>}
             </TabsList>
 
             <TabsContent value="entrar">

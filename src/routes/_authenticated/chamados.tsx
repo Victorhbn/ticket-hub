@@ -1,27 +1,14 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { NovoChamadoDialog } from "@/components/chamados/NovoChamadoDialog";
 import { ChamadoDetalhe } from "@/components/chamados/ChamadoDetalhe";
+import { FiltrosChamados, useFiltrosChamados } from "@/components/chamados/FiltrosChamados";
 import { PrioridadeBadge, StatusBadge } from "@/components/chamados/badges";
 import { useAuth } from "@/hooks/useAuth";
 import { useViewMode } from "@/hooks/useViewMode";
 import { useChamados, usePerfilMap, useSistemas } from "@/hooks/useChamadosData";
-import {
-  STATUS_LABEL,
-  STATUS_ORDER,
-  formatarData,
-  type Chamado,
-  type ChamadoStatus,
-} from "@/lib/chamados";
+import { formatarData, type Chamado } from "@/lib/chamados";
 
 export const Route = createFileRoute("/_authenticated/chamados")({
   head: () => ({
@@ -43,20 +30,8 @@ function ChamadosPage() {
   const { data: sistemas } = useSistemas();
   const perfis = usePerfilMap();
 
-  const [busca, setBusca] = useState("");
-  const [filtroStatus, setFiltroStatus] = useState<string>("todos");
   const [selecionado, setSelecionado] = useState<Chamado | null>(null);
-
-  const lista = useMemo(() => {
-    return (chamados ?? []).filter((c) => {
-      const okStatus = filtroStatus === "todos" || c.status === filtroStatus;
-      const okBusca =
-        !busca.trim() ||
-        c.titulo.toLowerCase().includes(busca.toLowerCase()) ||
-        c.descricao.toLowerCase().includes(busca.toLowerCase());
-      return okStatus && okBusca;
-    });
-  }, [chamados, filtroStatus, busca]);
+  const { filtros, setFiltros, limpar, lista, ativos } = useFiltrosChamados(chamados);
 
   const atualizado = selecionado
     ? ((chamados ?? []).find((c) => c.id === selecionado.id) ?? selecionado)
@@ -76,27 +51,15 @@ function ChamadosPage() {
         {userId && <NovoChamadoDialog userId={userId} />}
       </div>
 
-      <div className="flex flex-wrap gap-3">
-        <Input
-          className="max-w-xs"
-          placeholder="Buscar por título ou descrição"
-          value={busca}
-          onChange={(e) => setBusca(e.target.value)}
-        />
-        <Select value={filtroStatus} onValueChange={setFiltroStatus}>
-          <SelectTrigger className="w-[190px]">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="todos">Todos os status</SelectItem>
-            {STATUS_ORDER.map((s) => (
-              <SelectItem key={s} value={s}>
-                {STATUS_LABEL[s as ChamadoStatus]}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+      <FiltrosChamados
+        filtros={filtros}
+        setFiltros={setFiltros}
+        limpar={limpar}
+        ativos={ativos}
+        total={(chamados ?? []).length}
+        exibidos={lista.length}
+        mostrarSolicitante={!somenteMeus}
+      />
 
       {isLoading ? (
         <p className="text-sm text-muted-foreground">Carregando chamados...</p>
