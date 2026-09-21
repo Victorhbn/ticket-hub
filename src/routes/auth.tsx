@@ -82,9 +82,11 @@ function AuthPage() {
         </Link>
         <div className="rounded-xl border bg-card p-6 shadow-sm">
           <Tabs defaultValue="entrar">
-            <TabsList className="mb-6 grid w-full grid-cols-2">
+            <TabsList
+              className={`mb-6 grid w-full ${cadastroHabilitado ? "grid-cols-2" : "grid-cols-1"}`}
+            >
               <TabsTrigger value="entrar">Entrar</TabsTrigger>
-              <TabsTrigger value="cadastrar">Criar conta</TabsTrigger>
+              {cadastroHabilitado && <TabsTrigger value="cadastrar">Criar conta</TabsTrigger>}
             </TabsList>
 
             <TabsContent value="entrar">
