@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 import { ChamadoDetalhe } from "@/components/chamados/ChamadoDetalhe";
+import { FiltrosChamados, useFiltrosChamados } from "@/components/chamados/FiltrosChamados";
 import { PrioridadeBadge } from "@/components/chamados/badges";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
