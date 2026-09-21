@@ -46,6 +46,27 @@ export type Database = {
           },
         ]
       }
+      app_settings: {
+        Row: {
+          cadastro_habilitado: boolean
+          created_at: string
+          id: boolean
+          updated_at: string
+        }
+        Insert: {
+          cadastro_habilitado?: boolean
+          created_at?: string
+          id?: boolean
+          updated_at?: string
+        }
+        Update: {
+          cadastro_habilitado?: boolean
+          created_at?: string
+          id?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
       chamados: {
         Row: {
           created_at: string
