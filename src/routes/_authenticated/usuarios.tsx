@@ -33,6 +33,8 @@ function UsuariosPage() {
   const { isAdmin, loading, userId } = useAuth();
   const { data: perfis } = usePerfis();
   const { data: roles } = useRolesPorUsuario();
+  const { data: settings } = useAppSettings();
+  const alterarCadastro = useAtualizarCadastroHabilitado();
   const queryClient = useQueryClient();
 
   const alterar = useMutation({
