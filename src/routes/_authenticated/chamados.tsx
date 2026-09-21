@@ -51,27 +51,15 @@ function ChamadosPage() {
         {userId && <NovoChamadoDialog userId={userId} />}
       </div>
 
-      <div className="flex flex-wrap gap-3">
-        <Input
-          className="max-w-xs"
-          placeholder="Buscar por título ou descrição"
-          value={busca}
-          onChange={(e) => setBusca(e.target.value)}
-        />
-        <Select value={filtroStatus} onValueChange={setFiltroStatus}>
-          <SelectTrigger className="w-[190px]">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="todos">Todos os status</SelectItem>
-            {STATUS_ORDER.map((s) => (
-              <SelectItem key={s} value={s}>
-                {STATUS_LABEL[s as ChamadoStatus]}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+      <FiltrosChamados
+        filtros={filtros}
+        setFiltros={setFiltros}
+        limpar={limpar}
+        ativos={ativos}
+        total={(chamados ?? []).length}
+        exibidos={lista.length}
+        mostrarSolicitante={!somenteMeus}
+      />
 
       {isLoading ? (
         <p className="text-sm text-muted-foreground">Carregando chamados...</p>
