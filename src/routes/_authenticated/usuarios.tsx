@@ -9,8 +9,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import { useAppSettings, useAtualizarCadastroHabilitado } from "@/hooks/useAppSettings";
 import { usePerfis, useRolesPorUsuario } from "@/hooks/useChamadosData";
 import { ROLE_LABEL, type AppRole } from "@/lib/chamados";
 
