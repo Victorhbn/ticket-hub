@@ -1,27 +1,14 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { NovoChamadoDialog } from "@/components/chamados/NovoChamadoDialog";
 import { ChamadoDetalhe } from "@/components/chamados/ChamadoDetalhe";
+import { FiltrosChamados, useFiltrosChamados } from "@/components/chamados/FiltrosChamados";
 import { PrioridadeBadge, StatusBadge } from "@/components/chamados/badges";
 import { useAuth } from "@/hooks/useAuth";
 import { useViewMode } from "@/hooks/useViewMode";
 import { useChamados, usePerfilMap, useSistemas } from "@/hooks/useChamadosData";
-import {
-  STATUS_LABEL,
-  STATUS_ORDER,
-  formatarData,
-  type Chamado,
-  type ChamadoStatus,
-} from "@/lib/chamados";
+import { formatarData, type Chamado } from "@/lib/chamados";
 
 export const Route = createFileRoute("/_authenticated/chamados")({
   head: () => ({
