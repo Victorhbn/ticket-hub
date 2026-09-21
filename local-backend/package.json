@@ -1,0 +1,13 @@
+{
+  "name": "central-chamados-backend-local",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Backend local e offline da Central de Chamados: API HTTP + banco SQLite em arquivo, sem dependências externas.",
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "scripts": {
+    "start": "node --experimental-sqlite src/server.mjs"
+  }
+}
