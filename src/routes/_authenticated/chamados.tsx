@@ -30,20 +30,8 @@ function ChamadosPage() {
   const { data: sistemas } = useSistemas();
   const perfis = usePerfilMap();
 
-  const [busca, setBusca] = useState("");
-  const [filtroStatus, setFiltroStatus] = useState<string>("todos");
   const [selecionado, setSelecionado] = useState<Chamado | null>(null);
-
-  const lista = useMemo(() => {
-    return (chamados ?? []).filter((c) => {
-      const okStatus = filtroStatus === "todos" || c.status === filtroStatus;
-      const okBusca =
-        !busca.trim() ||
-        c.titulo.toLowerCase().includes(busca.toLowerCase()) ||
-        c.descricao.toLowerCase().includes(busca.toLowerCase());
-      return okStatus && okBusca;
-    });
-  }, [chamados, filtroStatus, busca]);
+  const { filtros, setFiltros, limpar, lista, ativos } = useFiltrosChamados(chamados);
 
   const atualizado = selecionado
     ? ((chamados ?? []).find((c) => c.id === selecionado.id) ?? selecionado)
